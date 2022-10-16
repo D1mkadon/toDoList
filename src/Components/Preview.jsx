@@ -1,44 +1,38 @@
 import React, {useState} from 'react';
-import MyButton from "./MyButton";
-import MyInput from "./MyInput";
 import PostList from "./PostList";
-import classes from "./MyButton.module.scss";
+import PostForm from "./PostForm";
 
 const Preview = () => {
-    const [posts,setPosts] = useState(
-      [
+    const [posts,setPosts] = useState([])
 
-        ])
-    const [title, setTitle] = useState( '')
-    const [description, setDescription] = useState( '')
-    const addNewPost = (e) =>{
-        e.preventDefault()
-        console.log(title)
-        const newPost ={
-            id: Date.now(),
-            title, description
-        }
+
+    const createPost = (newPost) =>{
         setPosts([...posts, newPost])
-        setTitle("")
-        setDescription("")
-        console.log(newPost)
     }
+    const removePost = (post) =>{
+        setPosts(posts.filter(p => p.id !== post.id))
+    }
+    const completeTodo = (id) => {
+        const updatedTodos = posts.map(post =>{
+            if (post.id === id){
+                post.isComplete = !post.isComplete
+            }
+            return post
+        })
+        setPosts(updatedTodos)
+    }
+
     return (
         <div className={"Preview"}>
-            <form >
-            <MyInput
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                type='text'
-                placeholder='what to do'/>
-            <MyInput
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                type='text'
-                placeholder='description'/>
-            <MyButton type='submit' onClick={addNewPost} className={classes.myBtn}>Create</MyButton>
-            </form>
-            <PostList posts={posts}/>
+            <PostForm create={createPost}/>
+            {posts.length !== 0
+                ? <PostList completeTodo={completeTodo} remove={removePost} posts={posts}/>
+            : <div style={{
+                textAlign: 'center',
+                    margin: '10vh 0',
+                    color: "white"
+                }}> list is empty</div>
+            }
         </div>
     );
 };

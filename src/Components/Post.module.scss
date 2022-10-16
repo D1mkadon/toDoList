@@ -5,6 +5,7 @@
   justify-content: flex-start;
   align-items: center;
   line-height: 30px;
+  text-align: left;
   strong{
     text-transform: uppercase;
   }
@@ -18,7 +19,7 @@
 .button{
   padding: 5px 15px;
   background: transparent;
-  color: #258dc8;;
+  color: #258dc8;
   border: 1px solid #258dc8;
   &:hover{
     color: white;
